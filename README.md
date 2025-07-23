@@ -1,356 +1,185 @@
-# PowerShell Configuration for Dynamic Themes, Aliases, and System Management
 
-This configuration file is designed to provide a highly customizable PowerShell experience. It includes functionality for dynamic theme switching with Oh My Posh, aliases for frequently used commands, system information functions, network utilities, and advanced fuzzy search capabilities for files and directories.
+-----
 
-## Table of Contents
+# My PowerShell Configuration 7
 
-1. [Initializing Oh My Posh with Themes](#initializing-oh-my-posh-with-themes)
-2. [Importing Necessary Modules](#importing-necessary-modules)
-3. [Theme Switching Functions](#theme-switching-functions)
-4. [Aliases for Common Commands](#aliases-for-common-commands)
-5. [Functions for Extended Functionality](#functions-for-extended-functionality)
-6. [Search and Fuzzy Search Functions](#search-and-fuzzy-search-functions)
-7. [Open Files and Folders](#open-files-and-folders)
+This repository contains a highly customized and enhanced PowerShell profile script designed to elevate your command-line experience on Windows. It integrates popular third-party tools, offers a rich set of custom functions for common tasks, and provides system and development utility aliases to boost your productivity.
 
----
+-----
 
-## Initializing Oh My Posh with Themes
+## ✨ Features
 
-Oh My Posh allows you to customize the PowerShell prompt's appearance with various themes. You can easily switch between these themes by initializing them in your PowerShell session.
+  * **Customizable Prompt with Oh My Posh:**
+      * Dynamic loading of Oh My Posh themes.
+      * Includes a built-in `theme` function to interactively switch and preview themes using `fzf`, with an option to save your preferred theme for persistence.
+  * **Enhanced Command Line with PSReadLine:**
+      * Intelligent **command prediction** from history and plugins.
+      * Customizable **color scheme** for better readability of commands, parameters, strings, and errors.
+      * Improved **key bindings** for efficient navigation and history search (e.g., `Tab` for `MenuComplete`, `Up/Down Arrow` for history search).
+      * Integration with **PSFzf** for powerful, interactive history searching (`Ctrl+f`, `Ctrl+r`).
+  * **Intelligent Git Workflow:**
+      * **`git-menu` function:** An interactive `fzf`-powered menu providing quick access to a wide array of Git commands, including common operations for status, branching, committing, history, remotes, diffing, stashing, rebasing, merging, and more.
+      * Automatic loading of `posh-git` for Git status integration in your prompt (if available).
+  * **Comprehensive System Information & Utilities:**
+      * **Network Diagnostics (`Get-NetworkInfo`):** Quickly view IPv4/IPv6 addresses, MAC addresses, default gateway, DNS servers, and external IP. Includes options for detailed output or IP-only.
+      * **System Information (`cpuinfo`, `raminfo`, `sysinfo`, `check-disk`):** Get quick snapshots of your CPU, RAM, system, and disk usage.
+      * **Process & Port Management (`ports`):** List all listening TCP connections and their associated processes.
+  * **Convenient File System Navigation & Search:**
+      * **Enhanced `ls` aliases (`l`, `ll`, `la`, `lsr`, `lsrh`):** Provides shortcuts for listing directory contents with various options (e.g., `l` for `ls -l`, `ll` for `ls -la`, `lsrh` for recursive hidden file search).
+      * **`Find-File` & `Find-InFile`:** Powerful functions to search for files by pattern or search for content within files.
+  * **Developer & DevOps Helpers:**
+      * **Docker Utilities (`docker-clean`, `docker-stop-all`, `docker-stats`):** Simplify common Docker operations like pruning, stopping all containers, and viewing live stats.
+      * **Python Virtual Environment Management (`venv`, `venv-save`):** Easily create, activate, and manage Python virtual environments, including saving/installing `requirements.txt`.
+      * **Package Manager Wrapper (`install`, `update`):** A unified interface to install and update packages using `winget`, `scoop`, `choco`, `pip`, and `npm`.
+  * **Clipboard Management (`Set-ClipboardPath`, `Get-ClipboardContent`):** Quickly copy the current directory path or retrieve clipboard content.
+  * **Environment Path Management (`Get-PathEnvironment`, `Add-PathEnvironment`):** Streamline managing your system's PATH environment variable.
+  * **Routine System Maintenance (`Clear-TempFiles`, `Start-SystemMaintenance`):** Automate tasks like clearing DNS cache, temporary files, and running disk checks.
 
-### Example themes already initialized (uncomment as needed):
+-----
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+To get the most out of this profile, ensure you have the following installed:
+
+  * **PowerShell 7+:** While some features may work on older versions, PowerShell 7 (or later) is highly recommended for full compatibility and performance.
+      * [Install PowerShell](https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell-on-windows)
+  * **Oh My Posh:** Essential for the customizable prompt.
+    ```powershell
+    winget install JanDeDobbeleer.OhMyPosh -s winget
+    # or if you use Scoop:
+    scoop install https://github.com/JanDeDobbeleer/oh-my-posh/releases/latest/download/oh-my-posh.json
+    ```
+  * **Nerd Font:** Crucial for displaying the icons and glyphs used by Oh My Posh themes correctly. After installing, set it as your font in your terminal application (e.g., Windows Terminal).
+      * [Download Nerd Fonts](https://www.google.com/search?q=https://www.nerdfonts.com/downloads)
+  * **fzf (Fuzzy Finder):** Highly recommended for interactive menus like `git-menu` and `theme`.
+    ```powershell
+    winget install fzf
+    ```
+
+### Optional Modules (Recommended)
+
+The profile will attempt to load these if they are installed, providing additional functionality:
+
+  * **Terminal-Icons:** Displays file and folder icons.
+    ```powershell
+    Install-Module -Name Terminal-Icons -Scope CurrentUser
+    ```
+  * **PSFzf:** Integrates `fzf` with PSReadLine for powerful history search.
+    ```powershell
+    Install-Module -Name PSFzf -Scope CurrentUser
+    ```
+  * **posh-git:** Provides Git status information for your prompt.
+    ```powershell
+    Install-Module -Name posh-git -Scope CurrentUser
+    ```
+
+### Installation Steps
+
+1.  **Locate your PowerShell Profile:**
+    Open PowerShell and type `$PROFILE` and press Enter. This will output the full path to your current PowerShell profile file (e.g., `C:\Users\YourUser\Documents\PowerShell\Microsoft.PowerShell_profile.ps1`).
+      * If the file doesn't exist, you can create it:
+        ```powershell
+        if (-not (Test-Path $PROFILE)) {
+            New-Item -Path $PROFILE -ItemType File -Force
+        }
+        ```
+2.  **Edit your Profile File:**
+    Open the profile file in your preferred text editor (e.g., `notepad $PROFILE`, `code $PROFILE`).
+3.  **Copy the Script Content:**
+    Copy the entire content of the `Microsoft.PowerShell_profile.ps1` script from this repository and paste it into your profile file.
+4.  **Save and Restart:**
+    Save the changes to your profile file and then close and reopen your PowerShell terminal. Your new configuration should now be active\!
+
+-----
+
+## 💡 Usage Examples
+
+All functions and aliases defined in the profile will be immediately available in your PowerShell session.
+
+### Oh My Posh Themes
 
 ```powershell
-# oh-my-posh init pwsh --config "C:\Users\$env:USERNAME\AppData\Local\Programs\oh-my-posh\themes\json.omp.json" | Invoke-Expression
-oh-my-posh init pwsh --config "C:\Users\$env:USERNAME\AppData\Local\Programs\oh-my-posh\themes\atomicBit.omp.json" | Invoke-Expression
-# oh-my-posh init pwsh --config "C:\Users\$env:USERNAME\AppData\Local\Programs\oh-my-posh\themes\chips.omp.json" | Invoke-Expression
-# oh-my-posh init pwsh --config "C:\Users\$env:USERNAME\AppData\Local\Programs\oh-my-posh\themes\dracula.omp.json" | Invoke-Expression
-# oh-my-posh init pwsh --config "C:\Users\$env:USERNAME\AppData\Local\Programs\oh-my-posh\themes\if_tea.omp.json" | Invoke-Expression
-# oh-my-posh init pwsh --config "C:\Users\$env:USERNAME\AppData\Local\Programs\oh-my-posh\themes\sonicboom_dark.omp.json" | Invoke-Expression
-# oh-my-posh init pwsh --config "C:\Users\$env:USERNAME\AppData\Local\Programs\oh-my-posh\themes\atomic.omp.json" | Invoke-Expression
-# oh-my-posh init pwsh --config "C:\Users\$env:USERNAME\AppData\Local\Programs\oh-my-posh\themes\blue-owl.omp.json" | Invoke-Expression
-# oh-my-posh init pwsh --config "C:\Users\$env:USERNAME\AppData\Local\Programs\oh-my-posh\themes\bubbles.omp.json" | Invoke-Expression
-# oh-my-posh init pwsh --config "C:\Users\$env:USERNAME\AppData\Local\Programs\oh-my-posh\themes\devious-diamonds.omp.json" | Invoke-Expression
+theme                  # Interactively select and apply a new Oh My Posh theme
 ```
-## Importing Necessary Modules
-This section imports essential modules for enhancing your PowerShell experience. These modules enable fuzzy searching, terminal icons, Windows update management, and improved shell functionalities.
+
+### Git Utilities
 
 ```powershell
-Import-Module PSFzf
-Import-Module PSWindowsUpdate
-Import-Module PSReadLine
-Set-PSReadLineOption -PredictionSource History
-Import-Module -Name Terminal-Icons
-Import-Module PSGitHub
+git-menu               # Open an interactive menu for common Git commands
+gs                     # Alias for git status
+gc "My commit message" # Alias for git commit -m "My commit message"
+gac "Add all and commit" # Alias for git commit -am "Add all and commit"
 ```
-##Theme Switching Functions
-The following functions allow you to switch themes dynamically using Oh My Posh with fuzzy search. The Set-PoshTheme function allows you to change themes, and Choose-PoshTheme lets you select a theme interactively.
 
-
-
+### Network & System Info
 
 ```powershell
-## Choose-PoshTheme Function
-This function allows you to select a theme from a list using fuzzy search. The fzf utility helps you interactively choose a theme.
-function Set-PoshTheme {
-    param (
-        [Parameter(Mandatory)]
-        [string]$Theme
-    )
-    $themePath = "C:\Users\$env:USERNAME\AppData\Local\Programs\oh-my-posh\themes\$Theme.omp.json"
-    if (Test-Path $themePath) {
-        oh-my-posh init pwsh --config $themePath | Invoke-Expression
-        Write-Host "Switched to theme: $Theme" -ForegroundColor Green
-    } else {
-        Write-Host "Theme '$Theme' not found!" -ForegroundColor Red
-    }
-}
-
-function Choose-PoshTheme {
-    $themes = @(
-        "jandedobbeleer", "chips", "dracula", "if_tea", "sonicboom_dark", "atomic", "blue-owl", "bubbles", 
-        "devious-diamonds", "cloud-native-azure", "mario", "powerline", "paradox", "pure", "snowy-night", 
-        "tango", "vscode", "powerline-v2", "crystal", "horizon", "sphinx", "old-skool", "seabird", "new-age", 
-        "macchiato", "react", "dracula-dark", "frodo", "night-owl", "1_shell", "agnoster.minimal", "agnoster", 
-        "agnosterplus", "aliens", "amro", "atomicBit", "avit", "blueish", "bubblesextra", "bubblesline", 
-        "capr4n", "catppuccin_frappe", "catppuccin_latte", "catppuccin_macchiato", "catppuccin_mocha", 
-        "catppuccin", "cert", "cinnamon", "clean-detailed", "cloud-context", "cobalt2", "craver", "darkblood", 
-        "di4am0nd", "easy-term", "emodipt-extend", "emodipt", "fish", "free-ukraine", "froczh", "gmay", 
-        "grandpa-style", "gruvbox", "half-life", "honukai", "hotstick.minimal", "hul10", "hunk", "huvix", 
-        "illusi0n", "iterm2", "jblab_2021", "jonnychipz", "json", "jtracey93", "jv_sitecorian", "kali", 
-        "kushal", "lambda", "lambdageneration", "larserikfinholt", "lightgreen", "M365Princess", "marcduiker", 
-        "markbull", "material", "microverse-power", "mojada"
-    )
-
-    Write-Host "Available Themes:" -ForegroundColor Cyan
-    $themes | fzf --preview 'echo {}' --preview-window=up:20 | ForEach-Object {
-        Set-PoshTheme -Theme $_
-    }
-}
-```powershell
-function Choose-PoshTheme {
-    $themes = @(
-        "jandedobbeleer",
-        "chips",
-        "dracula",
-        "if_tea",
-        "sonicboom_dark",
-        "atomic",
-        "blue-owl",
-        "bubbles",
-        "devious-diamonds",
-        "cloud-native-azure",
-        "mario",
-        "powerline",
-        "paradox",
-        "pure",
-        "snowy-night",
-        "tango",
-        "vscode",
-        "powerline-v2",
-        "crystal",
-        "horizon",
-        "sphinx",
-        "old-skool",
-        "seabird",
-        "new-age",
-        "macchiato",
-        "react",
-        "dracula-dark",
-        "frodo",
-        "night-owl",
-        "1_shell",
-        "agnoster.minimal",
-        "agnoster",
-        "agnosterplus",
-        "aliens",
-        "amro",
-        "atomicBit",
-        "avit",
-        "blueish",
-        "bubblesextra",
-        "bubblesline",
-        "capr4n",
-        "catppuccin_frappe",
-        "catppuccin_latte",
-        "catppuccin_macchiato",
-        "catppuccin_mocha",
-        "catppuccin",
-        "cert",
-        "cinnamon",
-        "clean-detailed",
-        "cloud-context",
-        "cobalt2",
-        "craver",
-        "darkblood",
-        "di4am0nd",
-        "easy-term",
-        "emodipt-extend",
-        "emodipt",
-        "fish",
-        "free-ukraine",
-        "froczh",
-        "gmay",
-        "grandpa-style",
-        "gruvbox",
-        "half-life",
-        "honukai",
-        "hotstick.minimal",
-        "hul10",
-        "hunk",
-        "huvix",
-        "illusi0n",
-        "iterm2",
-        "jblab_2021",
-        "jonnychipz",
-        "json",
-        "jtracey93",
-        "jv_sitecorian",
-        "kali",
-        "kushal",
-        "lambda",
-        "lambdageneration",
-        "larserikfinholt",
-        "lightgreen",
-        "M365Princess",
-        "marcduiker",
-        "markbull",
-        "material",
-        "microverse-power",
-        "mojada"
-    )
-
-    Write-Host "Available Themes:" -ForegroundColor Cyan
-    $themes | fzf --preview 'echo {}' --preview-window=up:20 | ForEach-Object {
-        Set-PoshTheme -Theme $_
-    }
-}
+Get-NetworkInfo        # Display a summary of your network configuration
+Get-NetworkInfo -Detailed # Show more comprehensive network details
+netinfo                # Quick overview of network adapters
+ports                  # List listening TCP ports
+cpuinfo                # Get CPU information
+check-disk             # View disk usage for all drives
 ```
-##Aliases for Common Commands
-Here, we define several useful aliases to simplify and speed up common PowerShell commands. These aliases make it easier to work with network commands, system commands, file explorers, and more.
 
+### File System
 
 ```powershell
-Set-Alias posh-theme Choose-PoshTheme
-Set-Alias gnip Get-NetIPAddress
-Set-Alias vim nvim
-Set-Alias alies Get-Alias
-Set-Alias edit notepad
-Set-Alias pscan Test-NetConnection  # Alias for testing network connections
-Set-Alias publicip get-public-ip
-Set-Alias nmap-scan recon
-Set-Alias gh gethash
-Set-Alias payload msf-payload
-Set-Alias rasm run-asm
-Set-Alias rcpp run-cpp
-Set-Alias rjava run-java
-Set-Alias phps php-server
-Set-Alias lvim "C:\Users\$env:USERNAME\.local\bin\lvim.ps1"```
-##Functions for Extended Functionality
-This section contains a set of custom functions for retrieving system information, managing network connections, exploring directories, and gathering various system metrics like CPU and memory usage.
-```powershell
-Function getip { Get-NetIPAddress | Where-Object { $_.AddressFamily -eq 'IPv4' } }
-Function ll { Get-ChildItem -Force | Sort-Object Name }
-Function lsr { Get-ChildItem -Recurse -Force }
-Function gs { Get-Service }
-Function md { New-Item -ItemType Directory }
-Function netinfo { Get-NetAdapter | Select-Object Name, Status, MacAddress, LinkSpeed }
-Function pingtest { Test-Connection -Count 4 }
-Function ports { Get-NetTCPConnection | Select-Object LocalAddress, LocalPort, RemoteAddress, RemotePort, State }
-Function size { Get-ChildItem -Recurse | Measure-Object -Property Length -Sum | Select-Object Count, Sum }
-Function tree { Get-ChildItem -Recurse -Force | Format-Table FullName, Attributes }
-Function listusers { Get-LocalUser }
-Function groups { Get-LocalGroupMember -Group "Administrators" }
-Function clsrv { Clear-DnsClientCache }
-require("lazy").setup({
-  {
-    "iamcco/markdown-preview.nvim",
-    run = "cd app && npm install",  -- Ensures Node.js dependencies are installed
-    ft = "markdown",  -- Only loads for markdown files
-  },
-})
-Function cpuinfo { Get-WmiObject Win32_Processor | Select-Object Name, NumberOfCores, MaxClockSpeed }
-Function raminfo { Get-WmiObject Win32_PhysicalMemory | Select-Object Manufacturer, Capacity, Speed }
-Function sysinfo { Get-ComputerInfo | Select-Object CsName, WindowsVersion, OsArchitecture, CsManufacturer, CsModel }
+l                      # List items in current directory
+ll                     # List all items including hidden
+lsrh C:\              # Recursively find hidden files starting from C:\ (can take time)
+Find-File "MyFile.txt" # Search for files named "MyFile.txt" in current dir
+Find-InFile "pattern" -Extension "log" # Search for "pattern" in .log files
 ```
-##Search and Fuzzy Search Functions
-This section introduces fuzzy search capabilities using the fzf tool, which enables you to search through files, directories, and content interactively. The functions here allow for flexible and powerful searching.
+
+### Python Virtual Environments
 
 ```powershell
-function search {
-    Get-ChildItem -Path C:\ -Recurse -File -ErrorAction SilentlyContinue | ForEach-Object { $_.FullName } | fzf
-}
-
-function fuzzysearch {
-    Get-ChildItem -Path C:\ -Recurse -File -ErrorAction SilentlyContinue | ForEach-Object { $_.FullName } | fzf --preview="type {}"
-}
-Set-Alias fs fuzzysearch
-
-function fuzzydirs {
-    Get-ChildItem -Path C:\ -Recurse -Directory -ErrorAction SilentlyContinue | ForEach-Object { $_.FullName } | fzf
-}
-Set-Alias fd fuzzydirs
-
-function fuzzyext {
-    param (
-        [string]$ext = "*.txt"
-    )
-    Get-ChildItem -Path C:\ -Recurse -File -Include $ext -ErrorAction SilentlyContinue | ForEach-Object { $_.FullName } | fzf
-}
-Set-Alias fx fuzzyext
+venv myenv             # Create and activate a new virtual environment named 'myenv'
+venv .venv -Install    # Create/activate default .venv and install requirements if file exists
+venv-save              # Save currently installed packages to requirements.txt
 ```
-##Open Files and Folders
-These functions let you open files or directories directly from your PowerShell session, using the power of fuzzy searching and previewing.
+
+### Docker Helpers
 
 ```powershell
-function openfile {
-    Get-ChildItem -Path C:\ -Recurse -File -ErrorAction SilentlyContinue | ForEach-Object { $_.FullName } | fzf | ForEach-Object { notepad $_ }
-}
-Set-Alias of openfile
-
-function searchpreview {
-    Get-ChildItem -Path C:\ -Recurse -File -ErrorAction SilentlyContinue | ForEach-Object { $_.FullName } | fzf --preview="if ($env:OS -eq 'Windows_NT') { type {} | Out-String } else { cat {} }"
-}
-Set-Alias fsp searchpreview
-
-function copyfilepath {
-    Get-ChildItem -Path C:\ -Recurse -File -ErrorAction SilentlyContinue | ForEach-Object { $_.FullName } | fzf | Set-Clipboard
-}
-Set-Alias fcfp copyfilepath
-
-function recentfiles {
-    param (
-        [int]$days = 7
-    )
-    Get-ChildItem -Path C:\ -Recurse -File -ErrorAction SilentlyContinue | Where-Object { $_.LastWriteTime -ge (Get-Date).AddDays(-$days) } | ForEach-Object { $_.FullName } | fzf
-}
-Set-Alias frf recentfiles
-
-function searchtext {
-    param (
-        [string]$query
-    )
-    rg --files-with-matches $query | fzf
-}
-Set-Alias fst searchtext
-
-function openfolder {
-    Get-ChildItem -Path C:\ -Recurse -Directory -ErrorAction SilentlyContinue | ForEach-Object { $_.FullName } | fzf | ForEach-Object { Start-Process explorer $_ }
-}
-Set-Alias fofd openfolder
+docker-clean           # Prune all Docker system resources
+docker-stop-all        # Stop all running Docker containers
+docker-stats           # View live Docker container resource usage
 ```
-## Aliases and Functions Table
 
-### Aliases for Common Commands
-This section lists the aliases for commonly used commands.
+### Package Management
 
-| **Alias**        | **Command**                | **Description**                                        | **Example Usage**                                                   |
-|------------------|----------------------------|--------------------------------------------------------|---------------------------------------------------------------------|
-| `posh-theme`     | `Choose-PoshTheme`         | Switch themes in Oh My Posh                            | `posh-theme` — Open the theme selection menu.                       |
-| `tt`             | `tree`                     | Display a tree of directories and files                | `tt` — Show the directory tree in the current folder.              |
-| `gnip`           | `Get-NetIPAddress`         | Get network IP address details                         | `gnip` — Display the system's IP address configuration.            |
-| `vim`            | `nvim`                     | Open Neovim editor                                     | `vim filename` — Open a file in Neovim.                            |
-| `alies`          | `Get-Alias`                | Show all defined aliases                               | `alies` — List all defined aliases.                                 |
-| `edit`           | `notepad`                  | Open Notepad                                           | `edit filename` — Open the file in Notepad.                         |
-| `pscan`          | `Test-NetConnection`       | Test network connections                               | `pscan google.com` — Test connection to google.com.                |
+```powershell
+install -Package "vscode" -Manager "winget" # Install VS Code using winget
+install -Package "nodejs" -Manager "scoop" # Install Node.js using scoop
+update -Manager "all"                  # Update all known package managers
+```
 
-### Functions for Extended Functionality
-This section lists functions that extend the functionality of PowerShell with custom commands.
+-----
 
-| **Function**     | **Command**                          | **Description**                                        | **Example Usage**                                                   |
-|------------------|--------------------------------------|--------------------------------------------------------|---------------------------------------------------------------------|
-| `getip`          | `Get-NetIPAddress | Where-Object { $_.AddressFamily -eq 'IPv4' }` | Get IPv4 address information                           | `getip` — Display all IPv4 addresses.                               |
-| `ll`             | `Get-ChildItem -Force | Sort-Object Name` | List files and directories, including hidden ones     | `ll` — List files in the current directory, including hidden files.|
-| `lsr`            | `Get-ChildItem -Recurse -Force`      | List files and directories recursively                 | `lsr` — List all files and directories recursively.                |
-| `gs`             | `Get-Service`                        | Get all running services                               | `gs` — Display all active services.                                 |
-| `md`             | `New-Item -ItemType Directory`       | Create a new directory                                 | `md new_folder` — Create a new directory called `new_folder`.       |
-| `netinfo`        | `Get-NetAdapter | Select-Object Name, Status, MacAddress, LinkSpeed` | Display network adapter information            | `netinfo` — Display network adapter details.                       |
-| `pingtest`       | `Test-Connection -Count 4`           | Ping a host to test connectivity                       | `pingtest` — Ping a host (default 4 pings).                        |
-| `ports`          | `Get-NetTCPConnection`               | Show all TCP connections                               | `ports` — Display current TCP connections.                         |
-| `size`           | `Get-ChildItem -Recurse | Measure-Object -Property Length -Sum` | Get total file size in a directory                  | `size` — Display total file size of all files recursively.         |
-| `tree`           | `Get-ChildItem -Recurse -Force`      | Display a directory tree                               | `tree` — Show a directory tree including subdirectories.           |
-| `listusers`      | `Get-LocalUser`                      | List all local users                                   | `listusers` — Display all local users on the system.               |
-| `groups`         | `Get-LocalGroupMember -Group "Administrators"` | List members of the "Administrators" group  | `groups` — List members of the "Administrators" group.             |
-| `clsrv`          | `Clear-DnsClientCache`              | Clear DNS client cache                                 | `clsrv` — Clear the DNS client cache.                              |
-| `cpuinfo`        | `Get-WmiObject Win32_Processor`     | Display CPU information                                | `cpuinfo` — Show details of the system's processor.                |
-| `raminfo`        | `Get-WmiObject Win32_PhysicalMemory` | Display RAM information                                | `raminfo` — Display details of installed memory.                   |
-| `sysinfo`        | `Get-ComputerInfo`                  | Display system information                             | `sysinfo` — Display system info like OS version and architecture.  |
+## 🤝 Contributing
 
-### Fuzzy Search Functions
-This section lists functions related to fuzzy searching files and directories.
+Contributions are welcome\! If you have suggestions for new functions, improvements to existing ones, or bug fixes, please feel free to:
 
-| **Function**     | **Command**                          | **Description**                                        | **Example Usage**                                                   |
-|------------------|--------------------------------------|--------------------------------------------------------|---------------------------------------------------------------------|
-| `search`         | `Get-ChildItem -Path C:\ -Recurse -File -ErrorAction SilentlyContinue | ForEach-Object { $_.FullName } | Fuzzy search for files in the system.                     | `search` — Interactive search for files on your system.           |
-| `fuzzysearch`    | `fzf --preview="type {}"`            | Fuzzy search with preview of file content              | `fuzzysearch` — Search for files and preview their content.        |
-| `fuzzydirs`      | `Get-ChildItem -Path C:\ -Recurse -Directory -ErrorAction SilentlyContinue | ForEach-Object { $_.FullName }` | Fuzzy search for directories in the system.              | `fuzzydirs` — Search for directories interactively.               |
-| `fuzzyext`       | `Get-ChildItem -Path C:\ -Recurse -File -Include $ext -ErrorAction SilentlyContinue | ForEach-Object { $_.FullName }` | Fuzzy search for files with a specific extension.             | `fuzzyext *.txt` — Search for `.txt` files interactively.          |
-| `searchpreview`  | `fzf --preview="if ($env:OS -eq 'Windows_NT') { type {} | Out-String } else { cat {} }"` | Fuzzy search with a preview of file content (cross-platform) | `searchpreview` — Search for files and preview their content.     |
-| `copyfilepath`   | `Set-Clipboard`                      | Copy selected file path to clipboard                   | `copyfilepath` — Copy the file path of a selected file to clipboard.|
-| `recentfiles`    | `Get-ChildItem -Path C:\ -Recurse -File -ErrorAction SilentlyContinue | Where-Object { $_.LastWriteTime -ge (Get-Date).AddDays(-$days) }` | Search for recently modified files | `recentfiles 7` — Search for files modified in the last 7 days.    |
-| `searchtext`     | `rg --files-with-matches $query`     | Search for text inside files                           | `searchtext "search_term"` — Search for text within files.        |
-| `openfolder`     | `Start-Process explorer`             | Open selected folder in File Explorer                  | `openfolder` — Open a folder in File Explorer interactively.      |
+1.  **Fork** the repository.
+2.  **Create** a new branch (`git checkout -b feature/your-feature`).
+3.  **Commit** your changes (`git commit -m 'Add new feature'`).
+4.  **Push** to the branch (`git push origin feature/your-feature`).
+5.  **Open a Pull Request**.
 
+-----
 
-# note:
-The project is still under development and may change.
+## 📄 License
+
+This project is open-source and available under the [MIT License](https://www.google.com/search?q=LICENSE).
+
+-----
+
+## ⭐ Show Your Support
+
+If you find this PowerShell configuration useful, consider giving the repository a star\!
+
+-----
