@@ -1,185 +1,370 @@
+# 🚀 ZeroAccess PowerShell Configuration
 
------
+![PowerShell](https://img.shields.io/badge/PowerShell-7+-blue.svg)
+![Oh My Posh](https://img.shields.io/badge/Oh%20My%20Posh-Custom%20Themes-green.svg)
+![License](https://img.shields.io/badge/License-MIT-yellow.svg)
 
-# My PowerShell Configuration 7
+A comprehensive and highly customized PowerShell 7+ configuration profile designed for maximum productivity, beautiful aesthetics, and powerful functionality. Transform your Windows terminal into a professional development environment! ✨
 
-This repository contains a highly customized and enhanced PowerShell profile script designed to elevate your command-line experience on Windows. It integrates popular third-party tools, offers a rich set of custom functions for common tasks, and provides system and development utility aliases to boost your productivity.
+## 📋 Table of Contents
 
------
+- [🌟 Features](#-features)
+- [🚀 Quick Start](#-quick-start)
+- [📦 Prerequisites](#-prerequisites)
+- [⚙️ Installation](#️-installation)
+- [🎨 Customization](#-customization)
+- [🔧 Functions & Aliases](#-functions--aliases)
+- [🛠️ Modules](#️-modules)
+- [🎯 Usage Examples](#-usage-examples)
+- [🔍 Detailed Features](#-detailed-features)
+- [🐛 Troubleshooting](#-troubleshooting)
+- [🤝 Contributing](#-contributing)
+- [📄 License](#-license)
 
-## ✨ Features
+## 🌟 Features
+![PowerShell Configuration Screenshot](images/Screenshot%202025-09-29%20213508.png)
+### 🎨 **Visual Enhancements**
+- **Oh My Posh Integration** - Beautiful, informative command line prompts
+- **Multiple Themes** - Switch between themes with interactive FZF selection
+- **Terminal Icons** - Visual file type indicators
+- **Syntax Highlighting** - Color-coded command output
 
-  * **Customizable Prompt with Oh My Posh:**
-      * Dynamic loading of Oh My Posh themes.
-      * Includes a built-in `theme` function to interactively switch and preview themes using `fzf`, with an option to save your preferred theme for persistence.
-  * **Enhanced Command Line with PSReadLine:**
-      * Intelligent **command prediction** from history and plugins.
-      * Customizable **color scheme** for better readability of commands, parameters, strings, and errors.
-      * Improved **key bindings** for efficient navigation and history search (e.g., `Tab` for `MenuComplete`, `Up/Down Arrow` for history search).
-      * Integration with **PSFzf** for powerful, interactive history searching (`Ctrl+f`, `Ctrl+r`).
-  * **Intelligent Git Workflow:**
-      * **`git-menu` function:** An interactive `fzf`-powered menu providing quick access to a wide array of Git commands, including common operations for status, branching, committing, history, remotes, diffing, stashing, rebasing, merging, and more.
-      * Automatic loading of `posh-git` for Git status integration in your prompt (if available).
-  * **Comprehensive System Information & Utilities:**
-      * **Network Diagnostics (`Get-NetworkInfo`):** Quickly view IPv4/IPv6 addresses, MAC addresses, default gateway, DNS servers, and external IP. Includes options for detailed output or IP-only.
-      * **System Information (`cpuinfo`, `raminfo`, `sysinfo`, `check-disk`):** Get quick snapshots of your CPU, RAM, system, and disk usage.
-      * **Process & Port Management (`ports`):** List all listening TCP connections and their associated processes.
-  * **Convenient File System Navigation & Search:**
-      * **Enhanced `ls` aliases (`l`, `ll`, `la`, `lsr`, `lsrh`):** Provides shortcuts for listing directory contents with various options (e.g., `l` for `ls -l`, `ll` for `ls -la`, `lsrh` for recursive hidden file search).
-      * **`Find-File` & `Find-InFile`:** Powerful functions to search for files by pattern or search for content within files.
-  * **Developer & DevOps Helpers:**
-      * **Docker Utilities (`docker-clean`, `docker-stop-all`, `docker-stats`):** Simplify common Docker operations like pruning, stopping all containers, and viewing live stats.
-      * **Python Virtual Environment Management (`venv`, `venv-save`):** Easily create, activate, and manage Python virtual environments, including saving/installing `requirements.txt`.
-      * **Package Manager Wrapper (`install`, `update`):** A unified interface to install and update packages using `winget`, `scoop`, `choco`, `pip`, and `npm`.
-  * **Clipboard Management (`Set-ClipboardPath`, `Get-ClipboardContent`):** Quickly copy the current directory path or retrieve clipboard content.
-  * **Environment Path Management (`Get-PathEnvironment`, `Add-PathEnvironment`):** Streamline managing your system's PATH environment variable.
-  * **Routine System Maintenance (`Clear-TempFiles`, `Start-SystemMaintenance`):** Automate tasks like clearing DNS cache, temporary files, and running disk checks.
+### ⚡ **Productivity Boosters**
+- **FZF Integration** - Fuzzy finding for commands, history, and files
+- **PSReadLine** - Enhanced command line editing with predictions
+- **Git Integration** - Comprehensive Git helpers and workflows
+- **Intelligent Tab Completion** - Context-aware suggestions
 
------
+### 🔧 **Comprehensive Toolset**
+- **200+ Custom Functions** - Covering development, system admin, and DevOps
+- **Cross-Platform Support** - Works on Windows, Linux, and macOS
+- **Module Management** - Automatic loading of optional modules
+- **Error Handling** - Robust error handling and user feedback
 
-## 🚀 Getting Started
+### 🛡️ **System Management**
+- **Network Diagnostics** - Complete network information and troubleshooting
+- **Process Management** - Advanced process monitoring and control
+- **System Maintenance** - Automated cleanup and optimization
+- **Security Tools** - Password strength testing and file integrity checks
 
-### Prerequisites
+## 🚀 Quick Start
 
-To get the most out of this profile, ensure you have the following installed:
-
-  * **PowerShell 7+:** While some features may work on older versions, PowerShell 7 (or later) is highly recommended for full compatibility and performance.
-      * [Install PowerShell](https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell-on-windows)
-  * **Oh My Posh:** Essential for the customizable prompt.
-    ```powershell
-    winget install JanDeDobbeleer.OhMyPosh -s winget
-    # or if you use Scoop:
-    scoop install https://github.com/JanDeDobbeleer/oh-my-posh/releases/latest/download/oh-my-posh.json
-    ```
-  * **Nerd Font:** Crucial for displaying the icons and glyphs used by Oh My Posh themes correctly. After installing, set it as your font in your terminal application (e.g., Windows Terminal).
-      * [Download Nerd Fonts](https://www.google.com/search?q=https://www.nerdfonts.com/downloads)
-  * **fzf (Fuzzy Finder):** Highly recommended for interactive menus like `git-menu` and `theme`.
-    ```powershell
-    winget install fzf
-    ```
-
-### Optional Modules (Recommended)
-
-The profile will attempt to load these if they are installed, providing additional functionality:
-
-  * **Terminal-Icons:** Displays file and folder icons.
-    ```powershell
-    Install-Module -Name Terminal-Icons -Scope CurrentUser
-    ```
-  * **PSFzf:** Integrates `fzf` with PSReadLine for powerful history search.
-    ```powershell
-    Install-Module -Name PSFzf -Scope CurrentUser
-    ```
-  * **posh-git:** Provides Git status information for your prompt.
-    ```powershell
-    Install-Module -Name posh-git -Scope CurrentUser
-    ```
-
-### Installation Steps
-
-1.  **Locate your PowerShell Profile:**
-    Open PowerShell and type `$PROFILE` and press Enter. This will output the full path to your current PowerShell profile file (e.g., `C:\Users\YourUser\Documents\PowerShell\Microsoft.PowerShell_profile.ps1`).
-      * If the file doesn't exist, you can create it:
-        ```powershell
-        if (-not (Test-Path $PROFILE)) {
-            New-Item -Path $PROFILE -ItemType File -Force
-        }
-        ```
-2.  **Edit your Profile File:**
-    Open the profile file in your preferred text editor (e.g., `notepad $PROFILE`, `code $PROFILE`).
-3.  **Copy the Script Content:**
-    Copy the entire content of the `Microsoft.PowerShell_profile.ps1` script from this repository and paste it into your profile file.
-4.  **Save and Restart:**
-    Save the changes to your profile file and then close and reopen your PowerShell terminal. Your new configuration should now be active\!
-
------
-
-## 💡 Usage Examples
-
-All functions and aliases defined in the profile will be immediately available in your PowerShell session.
-
-### Oh My Posh Themes
-
+### 1. **Clone the Repository**
 ```powershell
-theme                  # Interactively select and apply a new Oh My Posh theme
+git clone https://github.com/Amr-Khaled-Ahmed/My-powerShell-configuration-7.git
+cd My-powerShell-configuration-7
 ```
 
-### Git Utilities
-
+### 2. **Backup Existing Profile** (Recommended)
 ```powershell
-git-menu               # Open an interactive menu for common Git commands
-gs                     # Alias for git status
-gc "My commit message" # Alias for git commit -m "My commit message"
-gac "Add all and commit" # Alias for git commit -am "Add all and commit"
+Copy-Item $PROFILE "$PROFILE.backup.$(Get-Date -Format 'yyyyMMdd_HHmmss')"
 ```
 
-### Network & System Info
-
+### 3. **Install the Profile**
 ```powershell
-Get-NetworkInfo        # Display a summary of your network configuration
-Get-NetworkInfo -Detailed # Show more comprehensive network details
-netinfo                # Quick overview of network adapters
-ports                  # List listening TCP ports
-cpuinfo                # Get CPU information
-check-disk             # View disk usage for all drives
+Copy-Item .\Microsoft.PowerShell_profile.ps1 $PROFILE -Force
 ```
 
-### File System
-
+### 4. **Reload PowerShell**
 ```powershell
-l                      # List items in current directory
-ll                     # List all items including hidden
-lsrh C:\              # Recursively find hidden files starting from C:\ (can take time)
-Find-File "MyFile.txt" # Search for files named "MyFile.txt" in current dir
-Find-InFile "pattern" -Extension "log" # Search for "pattern" in .log files
+. $PROFILE
 ```
 
-### Python Virtual Environments
+## 📦 Prerequisites
 
+### **Required Software**
+- **PowerShell 7+** - [Download here](https://github.com/PowerShell/PowerShell/releases)
+- **Oh My Posh** - Beautiful prompt engine
+- **FZF** - Fuzzy finder for interactive selection
+
+### **Install Prerequisites**
 ```powershell
-venv myenv             # Create and activate a new virtual environment named 'myenv'
-venv .venv -Install    # Create/activate default .venv and install requirements if file exists
-venv-save              # Save currently installed packages to requirements.txt
+# Install PowerShell 7
+winget install Microsoft.PowerShell
+
+# Install Oh My Posh
+winget install JanDeDobbeleer.OhMyPosh -s winget
+
+# Install FZF
+winget install fzf
 ```
 
-### Docker Helpers
+## ⚙️ Installation
 
+### **Step-by-Step Setup**
+
+1. **Ensure PowerShell Execution Policy Allows Scripts**
 ```powershell
-docker-clean           # Prune all Docker system resources
-docker-stop-all        # Stop all running Docker containers
-docker-stats           # View live Docker container resource usage
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 ```
 
-### Package Management
-
+2. **Install Required Modules**
 ```powershell
-install -Package "vscode" -Manager "winget" # Install VS Code using winget
-install -Package "nodejs" -Manager "scoop" # Install Node.js using scoop
-update -Manager "all"                  # Update all known package managers
+# Core modules
+Install-Module -Name PSReadLine -AllowPrerelease -Force
+Install-Module -Name Terminal-Icons -Force
+Install-Module -Name PSFzf -Force
+
+# Optional but recommended
+Install-Module -Name posh-git -Force
+Install-Module -Name Z -Force
 ```
 
------
+3. **Apply the Configuration**
+```powershell
+# Start a new PowerShell session or reload profile
+. $PROFILE
+```
+
+## 🎨 Customization
+
+### **Changing Themes**
+Use the interactive theme switcher:
+```powershell
+theme
+```
+
+This opens an FZF interface to browse and select from all available Oh My Posh themes.
+
+### **Customizing Functions**
+Edit the profile directly:
+```powershell
+code $PROFILE
+```
+
+### **Adding Your Own Aliases**
+Add to the profile:
+```powershell
+function my-alias { ... }
+Set-Alias -Name ma -Value my-alias
+```
+
+## 🔧 Functions & Aliases
+
+### 🎯 **Core Navigation**
+| Command | Description | Example |
+|---------|-------------|---------|
+| `l` | List files | `l` |
+| `la` | List all files (including hidden) | `la` |
+| `ll` | List with details | `ll` |
+| `lsr` | List recursively | `lsr ~/projects` |
+| `which` | Find command location | `which git` |
+
+### 🔍 **File Operations**
+| Command | Description | Example |
+|---------|-------------|---------|
+| `Find-File` | Search files by pattern | `Find-File "config"` |
+| `Find-InFile` | Search text in files | `Find-InFile "TODO"` |
+| `Compare-Directories` | Compare folder contents | `Compare-Directories dir1 dir2` |
+| `Sync-Directories` | Sync folders | `Sync-Directories src dest` |
+
+### 🌐 **Network Tools**
+| Command | Description | Example |
+|---------|-------------|---------|
+| `Get-NetworkInfo` | Comprehensive network info | `Get-NetworkInfo -Detailed` |
+| `netinfo` | Network adapter info | `netinfo` |
+| `ports` | Open ports | `ports` |
+| `Test-Ports` | Test remote ports | `Test-Ports google.com 80,443` |
+
+### 🐳 **Docker & Kubernetes**
+| Command | Description | Example |
+|---------|-------------|---------|
+| `docker-clean` | Clean Docker system | `docker-clean` |
+| `docker-stats` | Container statistics | `docker-stats` |
+| `k8s-status` | Kubernetes status | `k8s-status -All` |
+| `k8s-cleanup` | Clean up K8s resources | `k8s-cleanup` |
+
+### 🔧 **System Information**
+| Command | Description | Example |
+|---------|-------------|---------|
+| `sysinfo` | System information | `sysinfo` |
+| `cpuinfo` | CPU details | `cpuinfo` |
+| `raminfo` | Memory information | `raminfo` |
+| `check-disk` | Disk usage | `check-disk` |
+
+### 📦 **Package Management**
+| Command | Description | Example |
+|---------|-------------|---------|
+| `install` | Universal installer | `install nodejs` |
+| `update` | Update packages | `update winget` |
+| `venv` | Python virtual env | `venv myproject` |
+| `venv-save` | Save requirements | `venv-save` |
+
+### 🔐 **Security Tools**
+| Command | Description | Example |
+|---------|-------------|---------|
+| `Test-PasswordStrength` | Password analysis | `Test-PasswordStrength "MyPass123!"` |
+| `Get-FileHash256` | File integrity | `Get-FileHash256 file.exe` |
+| `ssh-config` | SSH configuration | `ssh-config add myserver` |
+
+### ⚡ **Development**
+| Command | Description | Example |
+|---------|-------------|---------|
+| `Start-DevEnvironment` | Start dev environment | `Start-DevEnvironment web` |
+| `New-Project` | Create new project | `New-Project myapp web` |
+| `Build-And-Run` | C++ build helper | `Build-And-Run -Clean` |
+| `git-menu` | Interactive Git | `git-menu` |
+
+## 🛠️ Modules
+
+### **Core Modules (Auto-loaded)**
+- **PSReadLine** - Enhanced command line editing
+- **Terminal-Icons** - File type icons
+- **PSFzf** - Fuzzy finder integration
+- **posh-git** - Git status in prompt
+
+### **Optional Modules**
+- **PSGitHub** - GitHub integration
+- **Z** - Directory jumping
+- **PSScriptAnalyzer** - Code quality analysis
+
+## 🎯 Usage Examples
+
+### **Interactive Git Workflow**
+```powershell
+# Use the interactive Git menu
+git-menu
+
+# Clean up merged branches
+git-branch-cleanup
+
+# Sync with remote
+git-sync
+```
+
+### **System Monitoring**
+```powershell
+# Monitor performance in real-time
+Watch-Performance
+
+# Find top resource-consuming processes
+Get-TopProcesses -SortBy Memory -Top 5
+
+# Analyze log files
+Analyze-LogFile app.log -ErrorsOnly -Statistics
+```
+
+### **Network Diagnostics**
+```powershell
+# Get comprehensive network information
+Get-NetworkInfo -Detailed
+
+# Test specific ports
+Test-Ports google.com 80,443,22
+
+# Check internet speed
+Test-NetworkSpeed
+```
+
+### **Development Workflow**
+```powershell
+# Create and start a new web project
+New-Project my-web-app web
+Start-DevEnvironment web
+
+# Build C++ project with debugging
+Build-And-Run -Clean -Config Debug -Debug
+
+# Analyze code quality
+Measure-CodeQuality -Path ./src -Fix
+```
+
+## 🔍 Detailed Features
+
+### **Oh My Posh Configuration**
+- Dynamic theme detection and fallback
+- Multiple theme location support
+- Interactive theme switcher with FZF
+- Automatic profile persistence
+
+### **PSReadLine Enhancements**
+- Predictive IntelliSense
+- List view for predictions
+- Enhanced color schemes
+- Custom key bindings
+- History-based suggestions
+
+### **FZF Integration**
+- Command history search (Ctrl+R)
+- File and directory fuzzy finding
+- Git command selection
+- Theme browser
+
+### **Error Handling & Robustness**
+- Comprehensive try-catch blocks
+- Graceful fallbacks for missing components
+- Detailed error messages
+- Progress indicators
+
+## 🐛 Troubleshooting
+
+### **Common Issues**
+
+1. **Execution Policy Error**
+```powershell
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+```
+
+2. **Module Not Found**
+```powershell
+Install-Module -Name <ModuleName> -Force -AllowClobber
+```
+
+3. **Oh My Posh Not Loading**
+```powershell
+# Reinstall Oh My Posh
+winget uninstall JanDeDobbeleer.OhMyPosh
+winget install JanDeDobbeleer.OhMyPosh -s winget
+```
+
+4. **FZF Not Working**
+```powershell
+# Reinstall FZF
+winget uninstall fzf
+winget install fzf
+```
+
+### **Debug Mode**
+Enable verbose loading:
+```powershell
+$VerbosePreference = "Continue"
+. $PROFILE
+```
+
+### **Reset to Default**
+```powershell
+Remove-Item $PROFILE
+# Restart PowerShell
+```
 
 ## 🤝 Contributing
 
-Contributions are welcome\! If you have suggestions for new functions, improvements to existing ones, or bug fixes, please feel free to:
+We welcome contributions! Here's how you can help:
 
-1.  **Fork** the repository.
-2.  **Create** a new branch (`git checkout -b feature/your-feature`).
-3.  **Commit** your changes (`git commit -m 'Add new feature'`).
-4.  **Push** to the branch (`git push origin feature/your-feature`).
-5.  **Open a Pull Request**.
+1. **Fork the Repository**
+2. **Create a Feature Branch**
+3. **Make Your Changes**
+4. **Test Thoroughly**
+5. **Submit a Pull Request**
 
------
+### **Development Guidelines**
+- Follow PowerShell best practices
+- Include comprehensive help documentation
+- Add error handling for all functions
+- Test on both Windows and Linux if possible
 
 ## 📄 License
 
-This project is open-source and available under the [MIT License](https://www.google.com/search?q=LICENSE).
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
------
+---
 
-## ⭐ Show Your Support
+## 🎊 Enjoy Your Supercharged PowerShell!
 
-If you find this PowerShell configuration useful, consider giving the repository a star\!
+With this configuration, you'll have a powerful, beautiful, and highly productive PowerShell environment. The comprehensive set of tools and functions will streamline your workflow and make command-line operations a joy! 🚀
 
------
+**Happy Coding!** 💻✨
+
+---
+
+*Last updated: $(Get-Date -Format "yyyy-MM-dd")*
