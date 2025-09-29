@@ -718,6 +718,9 @@ function hack-server {
     ssh root@segfault.net
 }
 
+function my-hack-server {
+    ssh -o "SetEnv SECRET=password" root@lsd.segfault.net
+}
 # ----------------------------------------------
 # Clipboard Management
 # ----------------------------------------------
