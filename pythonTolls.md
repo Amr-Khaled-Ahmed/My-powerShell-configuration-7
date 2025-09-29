@@ -1,5 +1,3 @@
-Here's a detailed section to add to your README.md for the Python tools:
-
 ## 🐍 Python Tools Collection
 
 The repository includes several powerful Python utilities located in the `/python/` directory. These tools can be easily integrated into your PowerShell profile for enhanced functionality.
