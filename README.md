@@ -4,6 +4,8 @@
 ![Oh My Posh](https://img.shields.io/badge/Oh%20My%20Posh-Custom%20Themes-green.svg)
 ![License](https://img.shields.io/badge/License-MIT-yellow.svg)
 
+![PowerShell Configuration Screenshot](images/Screenshot%202025-09-29%20213508.png)
+
 A comprehensive and highly customized PowerShell 7+ configuration profile designed for maximum productivity, beautiful aesthetics, and powerful functionality. Transform your Windows terminal into a professional development environment! ✨
 
 ## 📋 Table of Contents
@@ -14,6 +16,7 @@ A comprehensive and highly customized PowerShell 7+ configuration profile design
 - [⚙️ Installation](#️-installation)
 - [🎨 Customization](#-customization)
 - [🔧 Functions & Aliases](#-functions--aliases)
+- [🐍 Python Tools](#-python-tools)
 - [🛠️ Modules](#️-modules)
 - [🎯 Usage Examples](#-usage-examples)
 - [🔍 Detailed Features](#-detailed-features)
@@ -22,7 +25,7 @@ A comprehensive and highly customized PowerShell 7+ configuration profile design
 - [📄 License](#-license)
 
 ## 🌟 Features
-![PowerShell Configuration Screenshot](images/Screenshot%202025-09-29%20213508.png)
+
 ### 🎨 **Visual Enhancements**
 - **Oh My Posh Integration** - Beautiful, informative command line prompts
 - **Multiple Themes** - Switch between themes with interactive FZF selection
@@ -205,6 +208,201 @@ Set-Alias -Name ma -Value my-alias
 | `Build-And-Run` | C++ build helper | `Build-And-Run -Clean` |
 | `git-menu` | Interactive Git | `git-menu` |
 
+## 🐍 Python Tools Collection
+
+The repository includes a collection of standalone Python utilities located in the `/python/` directory. These are CLI applications and system tools that complement your PowerShell environment.
+
+### 📁 Available Python Tools
+
+| Tool | Description | Type | Usage |
+|------|-------------|------|--------|
+| **`drawlogo.py`** | Creates graphical logos and designs | CLI Application | Graphic design and logo creation |
+| **`networkTools.py`** | Network scanning and analysis tools | System Utility | Network diagnostics and monitoring |
+| **`task bar.py`** | Taskbar customization and management | CLI Application | Windows taskbar manipulation |
+| **`taskmanager.py`** | Enhanced task manager interface | CLI Application | Process management |
+| **`video_downloader.py`** | Download videos from various platforms | Utility | Media content downloading |
+| **`wifi detector.py`** | WiFi network detection and analysis | System Utility | Wireless network scanning |
+
+### 🚀 Running Python Tools
+
+Each Python tool is a standalone script that can be run directly:
+
+```powershell
+# Navigate to python tools directory
+cd python
+
+# Run individual tools
+python drawlogo.py
+python networkTools.py
+python "task bar.py"
+python taskmanager.py
+python video_downloader.py
+python "wifi detector.py"
+```
+
+### 🔧 PowerShell Integration Functions
+
+Add these convenience functions to your PowerShell profile for easy access to Python tools:
+
+```powershell
+# Python Tools Launcher Functions
+function Start-PythonTool {
+    param(
+        [Parameter(Mandatory=$true)]
+        [string]$ToolName
+    )
+    
+    $repoRoot = Split-Path $PROFILE
+    $pythonToolsPath = Join-Path $repoRoot "python"
+    
+    switch ($ToolName.ToLower()) {
+        "drawlogo" { 
+            $toolPath = Join-Path $pythonToolsPath "drawlogo.py"
+        }
+        "networktools" {
+            $toolPath = Join-Path $pythonToolsPath "networkTools.py"
+        }
+        "taskbar" {
+            $toolPath = Join-Path $pythonToolsPath "task bar.py"
+        }
+        "taskmanager" {
+            $toolPath = Join-Path $pythonToolsPath "taskmanager.py"
+        }
+        "videodownloader" {
+            $toolPath = Join-Path $pythonToolsPath "video_downloader.py"
+        }
+        "wifidetector" {
+            $toolPath = Join-Path $pythonToolsPath "wifi detector.py"
+        }
+        default {
+            Write-Error "Unknown Python tool: $ToolName"
+            return
+        }
+    }
+    
+    if (Test-Path $toolPath) {
+        Write-Host "Starting $ToolName..." -ForegroundColor Green
+        python $toolPath
+    } else {
+        Write-Error "Python tool not found: $toolPath"
+    }
+}
+
+# Individual tool functions
+function Start-LogoDesigner {
+    Start-PythonTool -ToolName "drawlogo"
+}
+
+function Start-NetworkTools {
+    Start-PythonTool -ToolName "networktools"
+}
+
+function Start-TaskBarManager {
+    Start-PythonTool -ToolName "taskbar"
+}
+
+function Start-TaskManager {
+    Start-PythonTool -ToolName "taskmanager"
+}
+
+function Start-VideoDownloader {
+    Start-PythonTool -ToolName "videodownloader"
+}
+
+function Start-WiFiDetector {
+    Start-PythonTool -ToolName "wifidetector"
+}
+
+# Aliases for quick access
+Set-Alias -Name pydesign -Value Start-LogoDesigner
+Set-Alias -Name pynetwork -Value Start-NetworkTools
+Set-Alias -Name pytaskbar -Value Start-TaskBarManager
+Set-Alias -Name pytaskmgr -Value Start-TaskManager
+Set-Alias -Name pydownload -Value Start-VideoDownloader
+Set-Alias -Name pywifi -Value Start-WiFiDetector
+```
+
+### 🎯 Usage Examples
+
+```powershell
+# Start logo designer
+Start-LogoDesigner
+# or use alias
+pydesign
+
+# Launch network tools
+Start-NetworkTools
+pynetwork
+
+# Open task manager
+Start-TaskManager
+pytaskmgr
+
+# Start video downloader
+Start-VideoDownloader
+pydownload
+
+# Launch WiFi detector
+Start-WiFiDetector
+pywifi
+```
+
+### 📋 Tool Descriptions
+
+#### **Logo Designer** (`pydesign`)
+- **Purpose**: Graphic design and logo creation
+- **Features**: CLI-based logo design tools
+- **Usage**: Run and use the graphical interface to create designs
+
+#### **Network Tools** (`pynetwork`)
+- **Purpose**: Network scanning and diagnostics
+- **Features**: Various network analysis utilities
+- **Usage**: CLI interface for network operations
+
+#### **Taskbar Manager** (`pytaskbar`)
+- **Purpose**: Windows taskbar customization
+- **Features**: Taskbar manipulation and management
+- **Usage**: Graphical interface for taskbar settings
+
+#### **Task Manager ** (`pytaskmgr`)
+- **Purpose**: Enhanced process management
+- **Features**: CLI-based task manager with advanced features
+- **Usage**: Visual process monitoring and management
+
+#### **Video Downloader** (`pydownload`)
+- **Purpose**: Download videos from online platforms
+- **Features**: Support for multiple video sources
+- **Usage**: CLI interface for video downloading
+
+#### **WiFi Detector** (`pywifi`)
+- **Purpose**: Wireless network scanning
+- **Features**: WiFi network detection and analysis
+- **Usage**: CLI-based wireless network tools
+
+### ⚙️ Python Requirements
+
+Most tools should work with standard Python libraries. Some may require:
+
+```powershell
+# Common dependencies
+pip install requests
+pip install tkinter  # Usually included with Python
+pip install psutil   # For system utilities
+```
+
+### 🔧 Troubleshooting Python Tools
+
+```powershell
+# Check Python installation
+python --version
+
+# Verify script locations
+Test-Path "python/drawlogo.py"
+
+# Run with absolute path
+python "C:\path\to\repo\python\drawlogo.py"
+```
+
 ## 🛠️ Modules
 
 ### **Core Modules (Auto-loaded)**
@@ -324,6 +522,18 @@ winget uninstall fzf
 winget install fzf
 ```
 
+5. **Python Tools Not Working**
+```powershell
+# Check Python installation
+python --version
+
+# Navigate to tools directory
+cd python
+
+# Run tool directly
+python "task bar.py"
+```
+
 ### **Debug Mode**
 Enable verbose loading:
 ```powershell
@@ -352,6 +562,13 @@ We welcome contributions! Here's how you can help:
 - Include comprehensive help documentation
 - Add error handling for all functions
 - Test on both Windows and Linux if possible
+- For Python tools, ensure they work with Python 3.6+
+
+### **Adding New Python Tools**
+1. Place your Python script in the `/python/` directory
+2. Update the PowerShell integration functions
+3. Include proper documentation
+4. Test the tool independently
 
 ## 📄 License
 
@@ -367,4 +584,3 @@ With this configuration, you'll have a powerful, beautiful, and highly productiv
 
 ---
 
-*Last updated: $(Get-Date -Format "yyyy-MM-dd")*
