@@ -718,10 +718,6 @@ function hack-server {
     ssh root@segfault.net
 }
 
-function my-hack-server {
-    ssh -o "SetEnv SECRET=FksPpsOTJseCOrZBPWmRpQRz" root@lsd.segfault.net
-}
-
 # ----------------------------------------------
 # Clipboard Management
 # ----------------------------------------------
